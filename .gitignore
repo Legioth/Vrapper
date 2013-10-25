@@ -4,3 +4,10 @@
 *.jar
 *.war
 *.ear
+
+# Eclipse files
+
+.classpath
+.settings
+.project
+.jsdtscope
