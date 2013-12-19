@@ -57,59 +57,13 @@ import com.vaadin.ui.VerticalLayout;
 @SuppressWarnings("serial")
 public class VrapperUI extends UI {
 
-    private static final String clientJarName = "vaadin-client-7.1.0.jar";
-    private static final File clientJarFile;
-    static {
-        File file = new File("src", clientJarName);
-        if (file.exists()) {
-            clientJarFile = file;
-        } else {
-            clientJarFile = copyClientJar(clientJarName);
-        }
-    }
-
-    private ZipFile clientJar;
-
     @Override
     protected void init(VaadinRequest request) {
         try {
-            clientJar = new ZipFile(clientJarFile);
             showJarUpload();
-
-            // Resolver resolver = createResolver(null);
-
-            // showTypeSelector(zipFile);
-
-            // Type widgetType = Type
-            // .getObjectType("com/google/gwt/user/client/ui/HTML");
-            // showWidgetConfigurator(widgetType);
-
         } catch (Exception e) {
             setContent(new Label(e.getMessage()));
             e.printStackTrace();
-        }
-    }
-
-    private static File copyClientJar(String clientJarName) {
-        FileOutputStream output = null;
-        InputStream input = VrapperUI.class.getClassLoader()
-                .getResourceAsStream(clientJarName);
-        try {
-            if (input == null) {
-                throw new RuntimeException(clientJarName + " not found");
-            }
-            File tempFile = File.createTempFile("vrapper", clientJarName);
-            tempFile.deleteOnExit();
-            output = new FileOutputStream(tempFile);
-
-            IOUtils.copy(input, output);
-
-            return tempFile;
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        } finally {
-            IOUtils.closeQuietly(input);
-            IOUtils.closeQuietly(output);
         }
     }
 
@@ -120,7 +74,6 @@ public class VrapperUI extends UI {
         if (ownResolver != null) {
             resolvers.add(ownResolver);
         }
-        resolvers.add(new ZipResolver(clientJar));
         resolvers.add(new ClasspathResolver());
 
         final ListResolver listResolver = new ListResolver(resolvers);
@@ -186,17 +139,6 @@ public class VrapperUI extends UI {
             }
         });
 
-        Button clientJarButton = new Button("Just use vaadin-client.jar",
-                new Button.ClickListener() {
-                    @Override
-                    public void buttonClick(ClickEvent event) {
-                        try {
-                            showTypeSelector(createResolver(null), clientJar);
-                        } catch (IOException e) {
-                            throw new RuntimeException(e);
-                        }
-                    }
-                });
         Button htmlWidgetButton = new Button("Just use the HTML widget",
                 new Button.ClickListener() {
                     @Override
@@ -210,8 +152,7 @@ public class VrapperUI extends UI {
                         }
                     }
                 });
-        VerticalLayout layout = new VerticalLayout(upload, clientJarButton,
-                htmlWidgetButton);
+        VerticalLayout layout = new VerticalLayout(upload, htmlWidgetButton);
         layout.setSpacing(true);
         layout.setMargin(true);
         setContent(layout);
