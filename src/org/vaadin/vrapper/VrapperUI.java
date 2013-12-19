@@ -21,7 +21,6 @@ import org.vaadin.vrapper.model.reflect.Resolver;
 import org.vaadin.vrapper.model.reflect.TypeSource;
 import org.vaadin.vrapper.model.reflect.ZipResolver;
 
-import com.vaadin.annotations.Theme;
 import com.vaadin.data.Property.ValueChangeEvent;
 import com.vaadin.data.Property.ValueChangeListener;
 import com.vaadin.server.VaadinRequest;
@@ -56,7 +55,6 @@ import com.vaadin.ui.VerticalLayout;
  *  
  */
 @SuppressWarnings("serial")
-@Theme("vrapper")
 public class VrapperUI extends UI {
 
     private static final String clientJarName = "vaadin-client-7.1.0.jar";
