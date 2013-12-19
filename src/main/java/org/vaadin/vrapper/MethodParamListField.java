@@ -389,7 +389,7 @@ public class MethodParamListField extends
 
     @Override
     public Class<? extends List<CustomMethodParameter>> getType() {
-        return (Class<? extends List<CustomMethodParameter>>) List.class;
+        return (Class) List.class;
     }
 
 }
